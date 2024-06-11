@@ -94,7 +94,21 @@ def test2():
     print("test2 success.")
 
 
+def test3():
+    original_img = Image.open("../attachment/new.png")
+
+    new_img = original_img.copy()
+
+    width, height = new_img.size
+    pixels = new_img.load()
+
+    reverse_col_colors(pixels, 1, width)
+    new_img.save("../output/new_reverse_col_1.png")
+    print("test3 success.")
+
+
 if __name__ == '__main__':
 
     test1()
     test2()
+    test3()
