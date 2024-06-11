@@ -7,6 +7,6 @@ function
 - [x] reverse col
 - [x] local scan
 - [x] local batch scan
-- [ ] extract scan result
+- [x] extract scan result
 - [ ] batch reverse
 - [ ] gui
