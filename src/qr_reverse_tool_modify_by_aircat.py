@@ -32,25 +32,6 @@ def reverse_col_colors(pixels, col, height, block_size=10):
                 pixels[x_small, y_small] = reverse_color(pixel)
 
 
-original_img = Image.open("new.png")
-
-new_img = original_img.copy()
-
-width, height = new_img.size
-pixels = new_img.load()
-# 想要反转哪行哪列就修改数字即可，不够就复制一下。
-reverse_row_colors(pixels, 1, width)  # 从最小的x,y值开始计数，所以数字0为第一行/列。
-reverse_row_colors(pixels, 12, width)
-
-reverse_col_colors(pixels, 0, height)
-reverse_col_colors(pixels, 2, height)
-reverse_col_colors(pixels, 5, height)
-reverse_col_colors(pixels, 10, height)
-reverse_col_colors(pixels, 11, height)
-
-new_img.save("flag.png")
-
-
 def qrcode_scan(file: str):
 
     # 读取图像
@@ -71,12 +52,34 @@ def qrcode_scan(file: str):
     return Data
 
 
-def qrcode_scan_much():
-    prefix = "./output_flags/flag"
+def test1():
+    original_img = Image.open("../attachment/new.png")
+
+    new_img = original_img.copy()
+
+    width, height = new_img.size
+    pixels = new_img.load()
+    # 想要反转哪行哪列就修改数字即可，不够就复制一下。
+    reverse_row_colors(pixels, 1, width)  # 从最小的x,y值开始计数，所以数字0为第一行/列。
+    reverse_row_colors(pixels, 12, width)
+
+    reverse_col_colors(pixels, 0, height)
+    reverse_col_colors(pixels, 2, height)
+    reverse_col_colors(pixels, 5, height)
+    reverse_col_colors(pixels, 10, height)
+    reverse_col_colors(pixels, 11, height)
+
+    new_img.save("../output/flag.png")
+    print("test1 success.")
+
+
+def test2():
+    # test2
+    prefix = "../output/output_flags/flag"
     suffix = ".png"
     count1 = 0
     count2 = 0
-    data_list = qrcode_scan("./output_flags/flag.png")
+    data_list = qrcode_scan("../output/output_flags/flag.png")
     while (count1 != 25) and (count2 != 25):
         name = prefix + str(count1) + "_"+str(count2) + suffix
         data_list += qrcode_scan(name)
@@ -84,10 +87,14 @@ def qrcode_scan_much():
         if count2 == 24:
             count1 += 1
             count2 = 0
-    with open("output.txt", "w") as f:
+    with open("../output/output.txt", "w") as f:
         for data in data_list:
             for l in data:
                 f.write(l)
+    print("test2 success.")
 
 
-qrcode_scan_much()
+if __name__ == '__main__':
+
+    test1()
+    test2()
