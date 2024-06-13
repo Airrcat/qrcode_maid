@@ -1,3 +1,5 @@
+# from optparse import OptionParser
+import os
 from pyzbar.pyzbar import decode
 import cv2
 from PIL import Image
@@ -32,6 +34,21 @@ def reverse_col_colors(pixels, col, height, block_size=10):
                 pixels[x_small, y_small] = reverse_color(pixel)
 
 
+def get_files(path: str, suffix: str):
+    file_list = []
+    _suffix = suffix.lower()
+    for _, __, names in os.walk(path):
+        for name in names:
+            tmp = name.lower()
+            if _suffix == tmp[-4::]:
+                file_list.append(name)
+    print(file_list)
+
+
+def get_pngs(path: str):
+    return get_files(path, '.png')
+
+
 def qrcode_scan(file: str):
 
     # 读取图像
@@ -52,63 +69,74 @@ def qrcode_scan(file: str):
     return Data
 
 
-def test1():
-    original_img = Image.open("../attachment/new.png")
+# def test1():
+#     original_img = Image.open("../attachment/new.png")
 
-    new_img = original_img.copy()
+#     new_img = original_img.copy()
 
-    width, height = new_img.size
-    pixels = new_img.load()
-    # 想要反转哪行哪列就修改数字即可，不够就复制一下。
-    reverse_row_colors(pixels, 1, width)  # 从最小的x,y值开始计数，所以数字0为第一行/列。
-    reverse_row_colors(pixels, 12, width)
+#     width, height = new_img.size
+#     pixels = new_img.load()
+#     # 想要反转哪行哪列就修改数字即可，不够就复制一下。
+#     reverse_row_colors(pixels, 1, width)  # 从最小的x,y值开始计数，所以数字0为第一行/列。
+#     reverse_row_colors(pixels, 12, width)
 
-    reverse_col_colors(pixels, 0, height)
-    reverse_col_colors(pixels, 2, height)
-    reverse_col_colors(pixels, 5, height)
-    reverse_col_colors(pixels, 10, height)
-    reverse_col_colors(pixels, 11, height)
+#     reverse_col_colors(pixels, 0, height)
+#     reverse_col_colors(pixels, 2, height)
+#     reverse_col_colors(pixels, 5, height)
+#     reverse_col_colors(pixels, 10, height)
+#     reverse_col_colors(pixels, 11, height)
 
-    new_img.save("../output/flag.png")
-    print("test1 success.")
-
-
-def test2():
-    # test2
-    prefix = "../output/output_flags/flag"
-    suffix = ".png"
-    count1 = 0
-    count2 = 0
-    data_list = qrcode_scan("../output/output_flags/flag.png")
-    while (count1 != 25) and (count2 != 25):
-        name = prefix + str(count1) + "_"+str(count2) + suffix
-        data_list += qrcode_scan(name)
-        count2 += 1
-        if count2 == 24:
-            count1 += 1
-            count2 = 0
-    with open("../output/output.txt", "w") as f:
-        for data in data_list:
-            for l in data:
-                f.write(l)
-    print("test2 success.")
+#     new_img.save("../output/flag.png")
+#     print("test1 success.")
 
 
-def test3():
-    original_img = Image.open("../attachment/new.png")
+# def test2():
+#     # test2
+#     prefix = "../output/output_flags/flag"
+#     suffix = ".png"
+#     count1 = 0
+#     count2 = 0
+#     data_list = qrcode_scan("../output/output_flags/flag.png")
+#     while (count1 != 25) and (count2 != 25):
+#         name = prefix + str(count1) + "_"+str(count2) + suffix
+#         data_list += qrcode_scan(name)
+#         count2 += 1
+#         if count2 == 24:
+#             count1 += 1
+#             count2 = 0
+#     with open("../output/output.txt", "w") as f:
+#         for data in data_list:
+#             for l in data:
+#                 f.write(l)
+#     print("test2 success.")
 
-    new_img = original_img.copy()
 
-    width, height = new_img.size
-    pixels = new_img.load()
+# def test3():
+#     original_img = Image.open("../attachment/new.png")
 
-    reverse_col_colors(pixels, 1, width)
-    new_img.save("../output/new_reverse_col_1.png")
-    print("test3 success.")
+#     new_img = original_img.copy()
+
+#     width, height = new_img.size
+#     pixels = new_img.load()
+
+#     reverse_col_colors(pixels, 1, width)
+#     new_img.save("../output/new_reverse_col_1.png")
+#     print("test3 success.")
 
 
 if __name__ == '__main__':
+    # parser = OptionParser(usage="python3 main.py -t target -o output.txt")
+    # parser.add_option("-t", "--target", dest="target",
+    #                   default="../attachment/new.png", type="string")
+    # parser.add_option("-d", "--doucment", dest="document",
+    #                   default="../attachment", type="string")
+    # parser.add_option("-o", "--output", dest="output",
+    #                   default="../output", type="string")
+    # parser.add_option("-d", "--output", dest="output",
 
-    test1()
-    test2()
-    test3()
+    #                   default="../output", type="string")
+
+    get_pngs("E:\\Code\\GitHub\\qrcode_maid\\output\\output_flags")
+    # test1()
+    # test2()
+    # test3()
